@@ -9,6 +9,7 @@ export default {
         "./resources/views/**/*.blade.php",
     ],
 
+
     theme: {
         extend: {
             fontFamily: {
@@ -16,6 +17,26 @@ export default {
             },
         },
     },
+
+    daisyui: {
+		themes: [
+			{
+				mytheme: {
+					primary: '#800000',
+					secondary: '#f1c40e',
+					accent: '#ff7566',
+					neutral: '#070708',
+					base: '#f9f9fb',
+					'base-100': '#fafbff',
+					info: '#38bdf8',
+					success: '#a3e635',
+					warning: '#eab308',
+					error: '#ef4444',
+				},
+			},
+		],
+	},
+
 
     plugins: [forms, require("daisyui")],
 };
