@@ -14,9 +14,11 @@ return new class extends Migration
     {
         Schema::create('guilds', function (Blueprint $table) {
             $table->id();
+            $table->string('image')->nullable();
             $table->string('name');
-            $table->string('type');
             $table->string('description');
+            $table->string('is_public')->default(true);
+            $table->string('max_users');
             $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });
