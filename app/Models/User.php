@@ -49,4 +49,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Guid::class);
     }
+
+    public  function guildPost(){
+        return $this->hasMany(GuildPost::class);
+    }
+
+    public  function guildPostComments(){
+        return $this->hasMany(GuildPostComment::class);
+    }
+    public function joinedGuilds(){
+        return $this->hasMany(GuildMember::class);
+    }
 }

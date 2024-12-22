@@ -31,7 +31,7 @@
                     <h1 class="text-lg font-bold">{{ $guild->name }}</h1>
                     <p class="text-xs">Owner : {{ $guild->user->name }}</p>
                     <p class="text-xs">
-                        0 Members
+                        {{$guild->guildMembers()->count()}} Members
                     </p>
                 </div>
             </a>

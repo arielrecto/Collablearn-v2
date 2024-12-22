@@ -4,6 +4,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Student\DashboardController;
 use App\Http\Controllers\Student\GuildController;
+use App\Http\Controllers\Student\GuildPostCommentController;
+use App\Http\Controllers\Student\GuildPostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,7 +38,15 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware(['role:student'])->prefix('student')->as('student.')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+        Route::prefix('guilds')->as('guilds.')->group(function(){
+            Route::post('{guild}/join', [GuildController::class, 'join'])->name('join');
+            Route::post('{guild}/leave', [GuildController::class, 'leave'])->name('leave');
+            Route::get('{guild}/members', [GuildController::class, 'members'])->name('members');
+            Route::get('{guild}/about', [GuildController::class, 'about'])->name('about');
+        });
         Route::resource('guilds', GuildController::class);
+        Route::resource('guild-post', GuildPostController::class)->except('index');
+        Route::resource('guild-post-comments', GuildPostCommentController::class)->except('index');
     });
 });
 

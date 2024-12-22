@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Guild extends Model
 {
     use HasFactory;
 
-   protected $fillable = [
+    protected $fillable = [
         'image',
         'name',
         'description',
@@ -19,7 +20,26 @@ class Guild extends Model
     ];
 
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
+    }
+
+    public  function guildPosts()
+    {
+        return $this->hasMany(GuildPost::class);
+    }
+    public function guildMembers()
+    {
+        return $this->hasMany(GuildMember::class);
+    }
+
+    public function isAuthUserGuildMember()
+    {
+        return $this->guildMembers()->where('user_id', Auth::user()->id)->exists();
+    }
+    public function leaveUserGuild()
+    {
+        return $this->guildMembers()->where('user_id', Auth::user()->id)->first()->delete();
     }
 }

@@ -6,6 +6,7 @@ use App\Models\Guild;
 use Ramsey\Uuid\Guid\Guid;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\GuildMember;
 use Illuminate\Support\Facades\Auth;
 
 class GuildController extends Controller
@@ -74,7 +75,11 @@ class GuildController extends Controller
         $guild = Guild::find($id);
 
 
-        return view('users.student.guild.show', compact(['guild']));
+        $guildPosts = $guild->guildPosts()->latest()->paginate(10);
+
+
+
+        return view('users.student.guild.show', compact(['guild', 'guildPosts']));
     }
 
     /**
@@ -99,5 +104,45 @@ class GuildController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+
+    public function join(string $id)
+    {
+
+        GuildMember::create([
+            'guild_id' => $id,
+            'user_id' => Auth::user()->id,
+        ]);
+
+        return back()->with(['success_message' => 'Joined Guild Success']);
+    }
+
+    public function leave(string $id)
+    {
+        $guild = Guild::find($id);
+
+        $guild->leaveUserGuild();
+
+
+        return back()->with(['success_message' => 'Leave Guild Success']);
+    }
+
+
+    public function members(string $id){
+        $guild = Guild::find($id);
+
+
+        $members = $guild->guildMembers;
+
+
+        return view('users.student.guild.members.index', compact(['guild', 'members']));
+    }
+
+    public function about(string $id){
+        $guild = Guild::find($id);
+
+
+        return view('users.student.guild.about.index', compact(['guild']));
     }
 }
