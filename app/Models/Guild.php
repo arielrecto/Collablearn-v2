@@ -41,5 +41,9 @@ class Guild extends Model
     public function leaveUserGuild()
     {
         return $this->guildMembers()->where('user_id', Auth::user()->id)->first()->delete();
+
+    }
+    public function projects(){
+        return $this->hasMany(Project::class);
     }
 }
