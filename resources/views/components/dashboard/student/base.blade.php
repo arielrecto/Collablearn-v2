@@ -17,7 +17,7 @@
                     'badgeTotal' => 0,
                 ],
                 [
-                    'url' => null,
+                    'url' => 'student.projects.index',
                     'name' => 'Projects',
                     'icon' => '<i class="fi fi-rr-edit-alt"></i>',
                     'badgeTotal' => 0,

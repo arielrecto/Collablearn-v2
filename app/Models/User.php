@@ -59,5 +59,19 @@ class User extends Authenticatable
     }
     public function joinedGuilds(){
         return $this->hasMany(GuildMember::class);
+
+
+    }
+    public function projects(){
+        return $this->hasMany(Project::class);
+    }
+
+
+    public function assignProjectTasks(){
+        return $this->hasMany(ProjectTask::class, 'assign_id');
+    }
+
+    public function createdProjectTask(){
+        return $this->hasMany(ProjectTask::class, 'created_by');
     }
 }
