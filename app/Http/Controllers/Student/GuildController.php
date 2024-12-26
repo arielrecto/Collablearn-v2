@@ -14,10 +14,17 @@ class GuildController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $guilds = Guild::where('is_public', true)
-            ->latest()->paginate(10);
+        $search = $request->search;
+
+        $query = Guild::where('is_public', true);
+
+        if($search){
+            $query  = $query->where('name', 'like', '%' . $search . '%');
+        }
+
+        $guilds = $query->latest()->paginate(12);
 
         return view('users.student.guild.index', compact(['guilds']));
     }
@@ -153,5 +160,21 @@ class GuildController extends Controller
 
 
         return view('users.student.guild.about.index', compact(['guild']));
+    }
+
+
+    public  function myGuild()
+    {
+        $query = Guild::where('user_id', Auth::user()->id)
+            ->orWhereHas('guildMembers', function ($q) {
+                $q->where('user_id', Auth::user()->id);
+            });
+
+
+
+
+        $guilds = $query->latest()->paginate(12);
+
+        return view('users.student.guild.my-guild', compact(['guilds']));
     }
 }

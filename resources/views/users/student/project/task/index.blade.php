@@ -147,7 +147,7 @@
                 @endforelse
             </tbody>
         </table>
-
+        {{$tasks->links()}}
     </div>
 
 </x-dashboard.student.project.base>

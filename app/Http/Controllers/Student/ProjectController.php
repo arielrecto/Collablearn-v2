@@ -20,7 +20,7 @@ class ProjectController extends Controller
     public function index()
     {
 
-        $projects = Project::latest()->latest()->paginate(10);
+        $projects = Project::latest()->latest()->paginate(12);
 
         return  view('users.student.project.index',  compact(['projects']));
     }
@@ -129,7 +129,7 @@ class ProjectController extends Controller
 
         $project = Project::find($id);
 
-        $tasks = $project->projectTasks;
+        $tasks = $project->projectTasks()->paginate(10);
         return view('users.student.project.task.index', compact('project', 'tasks'));
     }
 
@@ -208,5 +208,17 @@ class ProjectController extends Controller
 
 
         return back()->with(['success_message' => 'Participant Added!']);
+    }
+    public function myProject()
+    {
+
+        $query = Project::where('user_id', Auth::user()->id)
+            ->orWhereHas('projectParticipants', function ($q) {
+                $q->where('user_id', Auth::user()->id);
+            });
+
+        $projects = $query->latest()->latest()->paginate(12);
+
+        return  view('users.student.project.index',  compact(['projects']));
     }
 }

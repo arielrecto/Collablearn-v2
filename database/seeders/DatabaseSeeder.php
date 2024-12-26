@@ -5,6 +5,8 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
 use App\Enums\UserTypes;
+use App\Models\Guild;
+use App\Models\Project;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
@@ -56,8 +58,11 @@ class DatabaseSeeder extends Seeder
 
         $users = User::whereDoesntHave('roles')->get();
 
-        collect($users)->map(function($user) use($studentRole){
+        collect($users)->map(function ($user) use ($studentRole) {
             $user->assignRole($studentRole);
         });
+
+        Guild::factory(100)->withMembers()->create();
+        Project::factory(100)->withParticipantsAndTasks()->create();
     }
 }

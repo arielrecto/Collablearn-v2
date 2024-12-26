@@ -40,13 +40,13 @@
                     'badgeTotal' => 0,
                 ],
                 [
-                    'url' => null,
+                    'url' => 'student.guilds.my.guilds',
                     'name' => 'Joined Guilds',
                     'icon' => '<i class="fi fi-rr-users-alt"></i>',
                     'badgeTotal' => 0,
                 ],
                 [
-                    'url' => null,
+                    'url' => 'student.projects.my.projects',
                     'name' => 'Joined Projects',
                     'icon' => '<i class="fi fi-rr-edit-alt"></i>',
                     'badgeTotal' => 0,
@@ -94,7 +94,7 @@
                 <x-dashboard.header />
             @endif
 
-            {{$slot}}
+            {{ $slot }}
         </div>
 
         <div class="w-1/5 border-l border-gray-200">

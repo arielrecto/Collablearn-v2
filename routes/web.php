@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
             Route::post('{guild}/leave', [GuildController::class, 'leave'])->name('leave');
             Route::get('{guild}/members', [GuildController::class, 'members'])->name('members');
             Route::get('{guild}/about', [GuildController::class, 'about'])->name('about');
+            Route::get('my-guilds', [GuildController::class, 'myGuild'])->name('my.guilds');
         });
 
 
@@ -55,6 +56,7 @@ Route::middleware('auth')->group(function () {
             Route::get('{project}/participants', [ProjectController::class, 'participantIndex'])->name('participant.index');
             Route::post('addParticipants', [ProjectController::class, 'addParticipant'])->name('participant.add');
             Route::post('/tasks', [ProjectController::class, 'storeTask'])->name('store.task');
+            Route::get('my-projects', [ProjectController::class, 'myProject'])->name('my.projects');
         });
         Route::resource('guilds', GuildController::class);
         Route::resource('guild-post', GuildPostController::class)->except('index');
