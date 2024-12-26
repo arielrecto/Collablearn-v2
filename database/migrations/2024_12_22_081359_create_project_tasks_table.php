@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\TaskStatus;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -18,7 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('id_number')->nullable();
             $table->longText('description');
-            $table->string('status')->default('pending');
+            $table->string('status')->default(TaskStatus::PENDING->value);
             $table->string('start_date');
             $table->string('due_date');
             $table->foreignIdFor(User::class, 'assign_id')->nullable()->constrained('users')->onDelete('cascade');

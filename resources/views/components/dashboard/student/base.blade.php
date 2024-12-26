@@ -88,12 +88,13 @@
 <x-app-layout>
     <div class="flex gap-2 w-full 4xl:max-w-5/6 min-h-screen">
         <x-dashboard.sidebar :links="$links" />
-        <div class="flex flex-col gap-2 p-5 grow">
+        <div class="flex flex-col gap-2 p-5 w-2/3">
             <x-flash-notification />
             @if (Route::is('student.dashboard'))
                 <x-dashboard.header />
             @endif
-            {{ $slot }}
+
+            {{$slot}}
         </div>
 
         <div class="w-1/5 border-l border-gray-200">

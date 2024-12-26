@@ -1,6 +1,7 @@
 import './bootstrap';
 
 import Alpine from 'alpinejs';
+import anchor from '@alpinejs/anchor'
 
 
 Alpine.data('imagePreview', () => ({
@@ -23,5 +24,6 @@ Alpine.data('imagePreview', () => ({
 }))
 
 window.Alpine = Alpine;
+Alpine.plugin(anchor)
 
 Alpine.start();

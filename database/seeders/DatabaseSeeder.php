@@ -18,10 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        \App\Models\User::factory(20)->create();
 
         $roles = UserTypes::cases();
 
@@ -55,5 +52,12 @@ class DatabaseSeeder extends Seeder
 
         $student->assignRole($studentRole);
         $admin->assignRole($adminRole);
+
+
+        $users = User::whereDoesntHave('roles')->get();
+
+        collect($users)->map(function($user) use($studentRole){
+            $user->assignRole($studentRole);
+        });
     }
 }

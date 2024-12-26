@@ -18,7 +18,7 @@
     <div class="grid grid-cols-3 grid-flow-row gap-2">
         @forelse($projects as $project)
             <a href="{{ route('student.projects.show', ['project' => $project->id]) }}"
-                class="h-32 p-5 rounded-lg border border-gray-500 flex gap-2">
+                class="min-h-32 w-full p-5 rounded-lg border border-gray-500 flex gap-2">
 
                 @if ($project->image)
                     <img src="{{ $project->image }}" class="w-1/3 aspect-square rounded-lg object-cover">
@@ -27,8 +27,8 @@
                         class="w-1/3 aspect-square rounded-lg object-cover">
                 @endif
 
-                <div class="flex grow flex-col gap-2">
-                    <h1 class="text-lg font-bold">{{ $project->name }}</h1>
+                <div class="flex grow flex-col gap-2 text-sm">
+                    <h1 class="text-md font-bold">{{ $project->name }}</h1>
                     <p class="text-xs">Owner : {{ $project->user->name }}</p>
                     <p class="text-xs">
                         0 Projects

@@ -7,7 +7,8 @@
         {{-- <a href="" class="btn btn-sm btn-primary">
             Add Task</a> --}}
     </div>
-    <form action="{{route('student.projects.store.task')}}" method="POST" class="flex gap-5" enctype="multipart/form-data">
+    <form action="{{ route('student.projects.store.task') }}" method="POST" class="flex gap-5"
+        enctype="multipart/form-data">
 
         @csrf
         {{-- <div class="w-1/3" x-data="imagePreview">
@@ -63,10 +64,13 @@
                 <label for="">Assign to</label>
                 <select name="assign_to" class="select select-bordered w-full ">
                     <option disabled selected>Select Participant</option>
-                    {{-- <option>Game of Thrones</option>
-                    <option>Lost</option>
-                    <option>Breaking Bad</option>
-                    <option>Walking Dead</option> --}}
+
+                    @forelse ($participants as $participant)
+                        <option value="{{ $participant->user->id }}">{{ $participant->user->name }}</option>
+                    @empty
+                        <option disabled>No Participants</option>
+                    @endforelse
+
                 </select>
             </div>
 

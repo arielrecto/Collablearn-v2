@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Student;
 
+use App\Enums\UserTypes;
 use App\Http\Controllers\Controller;
 use App\Models\Guild;
 use App\Models\Project;
+use App\Models\ProjectParticipant;
 use App\Models\ProjectTask;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -76,6 +79,12 @@ class ProjectController extends Controller
         }
 
 
+        ProjectParticipant::create([
+            'user_id' => Auth::user()->id,
+            'project_id' => $project->id
+        ]);
+
+
 
         return back()->with(['success_message' => 'Project Created']);
     }
@@ -128,7 +137,9 @@ class ProjectController extends Controller
     {
         $project = Project::find($id);
 
-        return view('users.student.project.task.create', compact(['project']));
+
+        $participants = $project->projectParticipants;
+        return view('users.student.project.task.create', compact(['project', 'participants']));
     }
 
     public function storeTask(Request $request)
@@ -154,5 +165,48 @@ class ProjectController extends Controller
 
 
         return back()->with(['success_message' => 'Task Added!']);
+    }
+
+    public function updateStatusTask(string $id, Request $request)
+    {
+        $projectTask = ProjectTask::find($id);
+
+
+        $projectTask->update([
+            'status' => $request->status
+        ]);
+
+
+        return back()->with([
+            'success_message' => 'project Status Updated!'
+        ]);
+    }
+
+    public function participantIndex(string $id)
+    {
+        $project = Project::find($id);
+
+        $nonParticipants = User::role(UserTypes::STUDENT->value)->whereDoesntHave('projectAsParticipants')->get();
+
+
+        $participants = $project->projectParticipants;
+
+
+        return view('users.student.project.participant.index', compact(['participants', 'project', 'nonParticipants']));
+    }
+    public function addParticipant(Request $request)
+    {
+        $request->validate([
+            'participant' => 'required'
+        ]);
+
+
+        ProjectParticipant::create([
+            'project_id' => $request->projectID,
+            'user_id' => $request->participant
+        ]);
+
+
+        return back()->with(['success_message' => 'Participant Added!']);
     }
 }

@@ -51,6 +51,9 @@ Route::middleware('auth')->group(function () {
         Route::prefix('projects')->as('projects.')->group(function () {
             Route::get('{project}/tasks', [ProjectController::class, 'tasks'])->name('tasks');
             Route::get('{project}/create', [ProjectController::class, 'createTask'])->name('create.task');
+            Route::post('task/{project_task}/status', [ProjectController::class, 'updateStatusTask'])->name('task.update.status');
+            Route::get('{project}/participants', [ProjectController::class, 'participantIndex'])->name('participant.index');
+            Route::post('addParticipants', [ProjectController::class, 'addParticipant'])->name('participant.add');
             Route::post('/tasks', [ProjectController::class, 'storeTask'])->name('store.task');
         });
         Route::resource('guilds', GuildController::class);

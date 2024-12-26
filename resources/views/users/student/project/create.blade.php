@@ -1,5 +1,5 @@
 <x-dashboard.student.base>
-    <x-page-title :back_url="route('student.projects.index')" label="Create Guild" sub_label="Start Collaborating to your co-peers through guild" />
+    <x-page-title :back_url="route('student.projects.index')" label="Create Project" sub_label="Start Collaborating to your co-peers through guild" />
 
     <form action="{{ route('student.projects.store') }}" method="POST" class="flex gap-5 py-10"
         enctype="multipart/form-data">

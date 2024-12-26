@@ -64,6 +64,13 @@ class GuildController extends Controller
         }
 
 
+        GuildMember::create([
+            'guild_id' => $guild->id,
+            'user_id' => Auth::user()->id,
+        ]);
+
+
+
         return back()->with(['success_message' => 'Guild Created Success']);
     }
 
@@ -129,7 +136,8 @@ class GuildController extends Controller
     }
 
 
-    public function members(string $id){
+    public function members(string $id)
+    {
         $guild = Guild::find($id);
 
 
@@ -139,7 +147,8 @@ class GuildController extends Controller
         return view('users.student.guild.members.index', compact(['guild', 'members']));
     }
 
-    public function about(string $id){
+    public function about(string $id)
+    {
         $guild = Guild::find($id);
 
 
