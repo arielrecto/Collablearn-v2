@@ -17,12 +17,12 @@
             x-bind:class="{ '-translate-x-full': !isOpen, 'translate-x-0': isOpen }">
 
             <button @click="isOpen = false"
-                class="absolute top-4 right-4 btn btn-xs btn-error">
+                class="absolute top-4 right-4 btn btn-xs btn-primary text-white">
                 &times;
             </button>
 
 
-            <div class="p-4 border-b">
+            <div class="p-4 border-b capitalize">
                 <h2 class="text-xl font-bold">{{ $title ?? 'Drawer Title' }}</h2>
             </div>
 

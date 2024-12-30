@@ -16,7 +16,10 @@
                 class="h-12 w-12 rounded-full object-cover">
             <div>
                 <h1 class="font-bold text-base text-gray-800 capitalize">{{ $user->name }}</h1>
+                @if (Route::is(['student.*']))
                 <p class="text-sm text-gray-500">LRN: {{ $user->lrn ?? '---' }}</p>
+                @endif
+
             </div>
         </div>
     </div>

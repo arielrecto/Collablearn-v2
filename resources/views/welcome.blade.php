@@ -21,6 +21,10 @@
                 <button class="btn btn-primary text-white">Login</button>
 
                 <a class="text-xs link text-center">Forgot Password</a>
+                <p  class="w-full border-b-2 border-black">
+
+                </p>
+                <a href="{{route('pre-register.step-one.create')}}" class="btn">Create Account</a>
             </form>
         </div>
     </div>

@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Enums\UserTypes;
 use App\Models\Guild;
+use App\Models\Profile;
 use App\Models\Project;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
@@ -20,7 +21,7 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        \App\Models\User::factory(20)->create();
+        User::factory(20)->withProfile()->create();
 
         $roles = UserTypes::cases();
 
@@ -55,6 +56,10 @@ class DatabaseSeeder extends Seeder
         $student->assignRole($studentRole);
         $admin->assignRole($adminRole);
 
+        Profile::factory()->create([
+            'user_id' => $student->id
+        ]);
+
 
         $users = User::whereDoesntHave('roles')->get();
 
@@ -62,7 +67,18 @@ class DatabaseSeeder extends Seeder
             $user->assignRole($studentRole);
         });
 
-        Guild::factory(100)->withMembers()->create();
-        Project::factory(100)->withParticipantsAndTasks()->create();
+        $students = User::role(UserTypes::STUDENT->value)->get();
+
+        collect($students)->map(function ($student){
+            Guild::factory()->withMembers()->create([
+                'user_id' => $student->id
+            ]);
+
+            Project::factory()->withParticipantsAndTasks()->create([
+                'user_id' => $student->id
+            ]);
+        });
+        // Guild::factory(10)->withMembers()->create();
+        // Project::factory(10)->withParticipantsAndTasks()->create();
     }
 }
