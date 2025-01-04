@@ -99,6 +99,14 @@ Route::middleware(['role:admin'])
     ->group(function () {
         Route::get('dashboard', [AdminDashboardController::class, 'dashboard'])->name('dashboard');
         Route::resource('students', StudentController::class);
+
+        Route::prefix('pre-register')->as('pre-register.')->group(function () {
+            Route::get('', [PreRegisterController::class, 'index'])->name('index');
+            Route::post('{pre_register}/approve', [PreRegisterController::class, 'approve'])->name('approve');
+            Route::post('{pre_register}/reject', [PreRegisterController::class, 'reject'])->name('reject');
+        });
     });
+
+
 
 require __DIR__ . '/auth.php';

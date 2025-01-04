@@ -18,6 +18,7 @@ class PreRegister extends Model
         'last_name',
         'first_name',
         'middle_name',
+        'lrn',
         'email_token',
         'email_verified_at',
         'photo',

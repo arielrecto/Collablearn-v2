@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\PreRegister;
+use App\Models\Profile;
+use App\Models\User;
 use App\Notifications\EmailVerifiedToken;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class PreRegisterController extends Controller
@@ -13,9 +16,21 @@ class PreRegisterController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+
+        $filter = $request->filter;
+
+        $query = PreRegister::where('status', 'pending');
+
+
+        if ($filter == 'all') {
+            $query =  PreRegister::where('status', '!=', 'pending');
+        }
+
+        $preRegisters = $query->paginate(10)->appends($filter);
+
+        return view('users.admin.pre-register.index', compact(['preRegisters']));
     }
 
     /**
@@ -159,8 +174,8 @@ class PreRegisterController extends Controller
         }
 
         $preRegister->update([
-            'photo' =>  asset('storage/' . $filePath),
-            'step' => $preRegister->step + 1
+            'photo' => asset('storage/' . $filePath),
+            'step' => $preRegister->step + 1,
         ]);
 
         return to_route('pre-register.step-five.create', ['pre_register' => $preRegister->id]);
@@ -171,4 +186,40 @@ class PreRegisterController extends Controller
         return view('pre-register.step-five', compact(['preRegister']));
     }
 
+    public function approve(string $id)
+    {
+        $preRegister = PreRegister::find($id);
+
+        $user = User::create([
+            'name' => "{$preRegister->last_name}, {$preRegister->first_name}",
+            'email' => $preRegister->email,
+            'password' => Hash::make($preRegister->password),
+            'lrn' => $preRegister->lrn,
+        ]);
+
+        Profile::create([
+            'user_id' => $user->id,
+            'last_name' => $preRegister->last_name,
+            'first_name' => $preRegister->first_name,
+            'middle_name' => $preRegister->middle_name,
+            'avatar' => $preRegister->photo,
+        ]);
+
+        $preRegister->update([
+            'status' => 'approved',
+        ]);
+
+        return back()->with('success_message', 'Pre-Register Approved');
+    }
+
+    public function reject(string $id)
+    {
+        $preRegister = PreRegister::find($id);
+
+        $preRegister->update([
+            'status' => 'rejected',
+        ]);
+
+        return back()->with('success_message', 'Pre-Register Rejected');
+    }
 }

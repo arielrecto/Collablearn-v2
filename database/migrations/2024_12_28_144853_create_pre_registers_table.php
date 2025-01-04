@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('last_name')->nullable();
             $table->string('first_name')->nullable();
             $table->string('email_token')->nullable();
+            $table->string('lrn')->nullable();
             $table->string('email_verified_at')->nullable();
             $table->string('photo')->nullable();
             $table->string('middle_name')->nullable();

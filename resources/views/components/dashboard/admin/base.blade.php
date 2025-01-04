@@ -16,12 +16,12 @@
                     'icon' => '<i class="fi fi-rr-users-alt"></i>',
                     'badgeTotal' => 0,
                 ],
-                // [
-                //     'url' => 'student.projects.index',
-                //     'name' => 'Projects',
-                //     'icon' => '<i class="fi fi-rr-edit-alt"></i>',
-                //     'badgeTotal' => 0,
-                // ],
+                [
+                    'url' => 'admin.pre-register.index',
+                    'name' => 'Pre-Registered Students',
+                    'icon' => '<i class="fi fi-rr-student"></i>',
+                    'badgeTotal' => 0,
+                ],
                 [
                     'url' => null,
                     'name' => 'Learning Modules',

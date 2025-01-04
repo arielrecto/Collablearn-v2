@@ -12,6 +12,11 @@
             </div>
             <form action="{{ route('login') }}" method="POST"
                 class="flex flex-col gap-5 p-5 shadow-lg bg-white rounded-lg w-1/2">
+                @if ($errors->any())
+                    @foreach ($errors as $error)
+                        <p class="text-error text-xs">{{ $error }}</p>
+                    @endforeach
+                @endif
                 @csrf
                 <input type="text" name="login" class="input border border-gray-200"
                     placeholder="Learners Reference Number | Email">
@@ -21,10 +26,10 @@
                 <button class="btn btn-primary text-white">Login</button>
 
                 <a class="text-xs link text-center">Forgot Password</a>
-                <p  class="w-full border-b-2 border-black">
+                <p class="w-full border-b-2 border-black">
 
                 </p>
-                <a href="{{route('pre-register.step-one.create')}}" class="btn">Create Account</a>
+                <a href="{{ route('pre-register.step-one.create') }}" class="btn">Create Account</a>
             </form>
         </div>
     </div>
