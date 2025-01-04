@@ -20,14 +20,23 @@
             <div class="flex flex-col gap-2">
                 <label for="">Display Name</label>
                 <input type="text" name="name" class="input w-full input-bordered">
+                @if($errors->has('name'))
+                <p class="text-xs text-error">{{$errors->first('name')}}</p>
+                @endif
             </div>
             <div class="flex flex-col gap-2">
                 <label for="">Email</label>
                 <input type="text" name="email" class="input w-full input-bordered">
+                @if($errors->has('email'))
+                <p class="text-xs text-error">{{$errors->first('email')}}</p>
+                @endif
             </div>
             <div class="flex flex-col gap-2">
                 <label for="">LRN</label>
                 <input type="number" name="lrn" class="input w-full input-bordered">
+                @if($errors->has('lrn'))
+                <p class="text-xs text-error">{{$errors->first('lrn')}}</p>
+                @endif
             </div>
             <div class="flex flex-col gap-2">
                 <label for="">Password</label>
