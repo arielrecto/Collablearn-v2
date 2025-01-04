@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\PreRegister;
-use App\Models\Profile;
+use App\Enums\UserTypes;
 use App\Models\User;
-use App\Notifications\EmailVerifiedToken;
+use App\Models\Profile;
+use App\Models\PreRegister;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\EmailVerifiedToken;
 
 class PreRegisterController extends Controller
 {
@@ -190,12 +192,19 @@ class PreRegisterController extends Controller
     {
         $preRegister = PreRegister::find($id);
 
+
+        $student = Role::where('name', UserTypes::STUDENT->value)->first();
+
         $user = User::create([
             'name' => "{$preRegister->last_name}, {$preRegister->first_name}",
             'email' => $preRegister->email,
             'password' => Hash::make($preRegister->password),
             'lrn' => $preRegister->lrn,
         ]);
+
+
+        $user->assignRole($student);
+
 
         Profile::create([
             'user_id' => $user->id,
