@@ -51,7 +51,7 @@ class StudentController extends Controller
         ]);
 
 
-        $studentRole = Role::where(UserTypes::STUDENT->value)->first();
+        $studentRole = Role::where('name',UserTypes::STUDENT->value)->first();
 
         $user = User::create([
             'name' => $request->name,
