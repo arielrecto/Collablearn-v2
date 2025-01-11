@@ -82,4 +82,8 @@ class User extends Authenticatable
     public function profile(){
         return $this->hasOne(Profile::class);
     }
+
+    public function postedLearningModules(){
+        return $this->hasMany(LearningModule::class, 'posted_by');
+    }
 }

@@ -23,7 +23,7 @@
                     'badgeTotal' => 0,
                 ],
                 [
-                    'url' => null,
+                    'url' => 'student.learning-modules.index',
                     'name' => 'Learning Modules',
                     'icon' => '<i class="fi fi-rr-books"></i>',
                     'badgeTotal' => 0,

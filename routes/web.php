@@ -1,18 +1,20 @@
 <?php
 
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\Admin\PreRegisterController;
-use App\Http\Controllers\Admin\StudentController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Student\DashboardController;
-use App\Http\Controllers\Student\GuildController;
-use App\Http\Controllers\Student\GuildPostCommentController;
-use App\Http\Controllers\Student\GuildPostController;
-use App\Http\Controllers\Student\ProjectController;
-use App\Http\Controllers\Student\ProjectTaskController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Student\GuildController;
+use App\Http\Controllers\Student\ProjectController;
+use App\Http\Controllers\Admin\PreRegisterController;
+use App\Http\Controllers\Student\DashboardController;
+use App\Http\Controllers\Student\GuildPostController;
+use App\Http\Controllers\Student\ProjectTaskController;
+use App\Http\Controllers\Admin\LearningModuleController;
+use App\Http\Controllers\Student\GuildPostCommentController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Student\LearningModuleController as StudentLearningModuleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,6 +92,7 @@ Route::middleware('auth')->group(function () {
             Route::resource('guild-post', GuildPostController::class)->except('index');
             Route::resource('guild-post-comments', GuildPostCommentController::class)->except('index');
             Route::resource('projects', ProjectController::class);
+            Route::resource('learning-modules',  StudentLearningModuleController::class);
         });
 });
 
@@ -105,6 +108,8 @@ Route::middleware(['role:admin'])
             Route::post('{pre_register}/approve', [PreRegisterController::class, 'approve'])->name('approve');
             Route::post('{pre_register}/reject', [PreRegisterController::class, 'reject'])->name('reject');
         });
+
+        Route::resource('learning-modules', LearningModuleController::class);
     });
 
 
