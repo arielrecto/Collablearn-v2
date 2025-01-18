@@ -36,7 +36,21 @@ class Project extends Model
     }
 
 
-    public function projectParticipants(){
+    public function projectParticipants()
+    {
         return $this->hasMany(ProjectParticipant::class);
+    }
+
+    public function percentCompletedTasks()
+    {
+        $completedTasks = $this->projectTasks()->where('status', 'completed')->count();
+        $totalTasks = $this->projectTasks()->count();
+
+        $completionPercentage = $totalTasks > 0
+            ? ($completedTasks / $totalTasks) * 100
+            : 0;
+
+
+        return $completionPercentage;
     }
 }

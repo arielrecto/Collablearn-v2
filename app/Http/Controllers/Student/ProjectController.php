@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Student;
 
-use App\Enums\UserTypes;
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Guild;
 use App\Models\Project;
-use App\Models\ProjectParticipant;
+use App\Enums\UserTypes;
 use App\Models\ProjectTask;
-use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use App\Models\ProjectParticipant;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
@@ -96,8 +98,44 @@ class ProjectController extends Controller
     {
         $project = Project::find($id);
 
+        $percentTotalTasks = $project->percentCompletedTasks();
 
-        return view('users.student.project.show', compact('project'));
+        $taskCounts = $project->projectTasks()
+            ->select('status', DB::raw('count(*) as total'))
+            ->groupBy('status')
+            ->pluck('total', 'status');
+
+
+        $today = Carbon::today();
+
+
+        $overdueTasks = $project->projectTasks()->where('due_date', '<', $today)
+            ->where('status', '!=', 'completed')
+            ->get();
+
+
+        $upcomingTasks = $project->projectTasks()
+            ->where('start_date', '<', $today)
+            ->where('status', '!=', 'completed')
+            ->get();
+
+
+        $todayTasks = $project->projectTasks()
+            ->where('start_date', $today)
+            ->where('status', '!=', 'completed')
+            ->get();
+
+
+
+
+        return view('users.student.project.show', compact([
+            'project',
+            'percentTotalTasks',
+            'taskCounts',
+            'overdueTasks',
+            'upcomingTasks',
+            'todayTasks'
+        ]));
     }
 
     /**

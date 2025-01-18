@@ -52,12 +52,12 @@
     </div>
 
     <!-- Logout Section -->
-    <div class="p-4">
+    {{-- <div class="p-4">
         <form method="POST" action="{{ route('logout') }}"
             class="flex items-center text-gray-600 hover:bg-gray-100 p-2 rounded-md">
             @csrf
             <i class="fi fi-rr-sign-out-alt text-lg"></i>
             <button type="submit" class="ml-2 text-sm capitalize">Logout</button>
         </form>
-    </div>
+    </div> --}}
 </div>

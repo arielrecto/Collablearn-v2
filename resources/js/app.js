@@ -55,22 +55,79 @@ Alpine.data("webCamera", () => ({
 
 Alpine.data("fileUploadHandler", () => ({
     files: [],
-        handleFiles(event) {
-            const selectedFiles = Array.from(event.target.files);
-            selectedFiles.forEach(file => {
-                this.files.push({
-                    name: file.name,
-                    size: file.size,
-                    type: file.type,
-                    url: file.type.startsWith('image/') ? URL.createObjectURL(file) : '',
-                    file: file
-                });
+    handleFiles(event) {
+        const selectedFiles = Array.from(event.target.files);
+        selectedFiles.forEach((file) => {
+            this.files.push({
+                name: file.name,
+                size: file.size,
+                type: file.type,
+                url: file.type.startsWith("image/")
+                    ? URL.createObjectURL(file)
+                    : "",
+                file: file,
             });
-            // IMPORTANT: Don't reset event.target.value
-        },
-        removeFile(index) {
-            this.files.splice(index, 1);
-        }
+        });
+        // IMPORTANT: Don't reset event.target.value
+    },
+    removeFile(index) {
+        this.files.splice(index, 1);
+    },
+}));
+
+Alpine.data("pieChart", () => ({
+    chart: null,
+    init() {
+        // Fetch task data from the backend
+
+        const labels = ["pending", "done", "in progress"]; // Status labels
+        const taskCounts = [30, 20, 25]; // Task counts
+
+        const ctx = this.$refs.chart.getContext("2d");
+
+        this.chart = new Chart(ctx, {
+            type: "doughnut",
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: "Tasks by Status",
+                        data: taskCounts,
+                        backgroundColor: [
+                            "#4CAF50", // Completed
+                            "#FFC107", // In Progress
+                            "#F44336", // Pending
+                            "#2196F3", // Other
+                        ],
+                        borderColor: "#ffffff",
+                        borderWidth: 1,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: "top",
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                return `${tooltipItem.label}: ${tooltipItem.raw} tasks`;
+                            },
+                        },
+                    },
+                },
+            },
+        });
+    },
+    update(data) {
+
+        this.chart.data.labels = Object.keys(data);
+        this.chart.data.datasets[0].data = Object.values(data);
+
+        this.chart.update();
+    },
 }));
 
 window.Alpine = Alpine;

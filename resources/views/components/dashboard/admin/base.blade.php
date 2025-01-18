@@ -98,13 +98,59 @@
             {{ $slot }}
         </div>
 
-        <div class="w-1/5 border-l border-gray-200">
+        <div x-data="{ open: false }" class="relative w-1/5 border-l border-gray-200">
+            <!-- Top Bar -->
             <div class="flex items-center justify-end gap-5 p-5">
-                <img src="{{ asset('animated-icons/bell.gif') }}" alt="" srcset="" class="w-12 aspect-auto">
-                <img src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}" alt="Profile Image"
-                    class="h-12 w-12 rounded-full object-cover">
+                <!-- Notification Icon -->
+                <img src="{{ asset('animated-icons/bell.gif') }}" alt="Notifications" class="w-12 aspect-auto">
+
+                <!-- Profile Image with Dropdown Toggle -->
+                <img
+                    @click="open = !open"
+                    src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}"
+                    alt="Profile Image"
+                    class="h-12 w-12 rounded-full object-cover cursor-pointer">
             </div>
 
+            <!-- Dropdown Menu -->
+            <div
+                x-show="open"
+                @click.outside="open = false"
+                class="absolute right-0 mt-2 w-64 bg-red-700 text-white rounded-lg shadow-lg z-50">
+                <!-- User Information -->
+                <div class="p-4 border-b border-red-600">
+                    <h3 class="text-lg font-semibold">{{ Auth::user()->name }}</h3>
+                    <p class="text-sm">LRN No.: {{ Auth::user()->lrn }}</p>
+                </div>
+
+                <!-- Menu Items -->
+                <div class="py-2">
+                    <a href="#" class="flex items-center gap-2 px-4 py-2 hover:bg-red-600">
+                        <span class="material-icons">edit</span>
+                        Edit Profile
+                    </a>
+                    <a href="#" class="flex items-center gap-2 px-4 py-2 hover:bg-red-600">
+                        <span class="material-icons">notifications</span>
+                        Notifications
+                    </a>
+                    <a href="#" class="flex items-center gap-2 px-4 py-2 hover:bg-red-600">
+                        <span class="material-icons">feedback</span>
+                        Give Feedback
+                    </a>
+                    <a href="{{route('privacy-policy')}}" class="flex items-center gap-2 px-4 py-2 hover:bg-red-600">
+                        <span class="material-icons">privacy_tip</span>
+                        Privacy Policy
+                    </a>
+                    <a href="#" class="flex items-center gap-2 px-4 py-2 hover:bg-red-600">
+                        <span class="material-icons">gavel</span>
+                        Terms of Service
+                    </a>
+                    <a href="#" class="flex items-center gap-2 px-4 py-2 hover:bg-red-600">
+                        <span class="material-icons">logout</span>
+                        Sign Out
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 

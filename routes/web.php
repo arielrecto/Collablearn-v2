@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\LearningModuleController;
 use App\Http\Controllers\Student\GuildPostCommentController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Student\LearningModuleController as StudentLearningModuleController;
+use App\Http\Controllers\Student\ProfileController as StudentProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +63,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('privacy-policy', function () {
+        return view('users.privacy-policy');
+    })->name('privacy-policy');
+
+    Route::get('terms-and-conditions', function () {
+        return view('users.term-of-service');
+    })->name('terms-and-conditions');
+
     Route::middleware(['role:student'])
         ->prefix('student')
         ->as('student.')
@@ -76,6 +85,11 @@ Route::middleware('auth')->group(function () {
                     Route::get('{guild}/about', [GuildController::class, 'about'])->name('about');
                     Route::get('my-guilds', [GuildController::class, 'myGuild'])->name('my.guilds');
                 });
+            Route::prefix('profile')->as('profile.')->group(function () {
+                Route::get('', [StudentProfileController::class, 'edit'])->name('edit');
+                Route::get('password-update', action: [StudentProfileController::class, 'updatePassword'])->name('password-update');
+                Route::patch('update', action: [StudentProfileController::class, 'update'])->name('update');
+            });
 
             Route::prefix('projects')
                 ->as('projects.')

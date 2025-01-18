@@ -16,8 +16,14 @@
     <link rel='stylesheet'
         href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
 
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+
+
+
+
 </head>
 
 <body class="font-sans antialiased">
@@ -42,6 +48,9 @@
 
 
     @stack('js')
+
+    {{-- chart js --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </body>
 
