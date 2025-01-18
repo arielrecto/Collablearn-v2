@@ -145,10 +145,13 @@
                         <span class="material-icons">gavel</span>
                         Terms of Service
                     </a>
-                    <a href="#" class="flex items-center gap-2 px-4 py-2 hover:bg-red-600">
-                        <span class="material-icons">logout</span>
-                        Sign Out
-                    </a>
+                    <form action="{{route('logout')}}" method="POST" class="flex items-center gap-2 px-4 py-2 hover:bg-red-600">
+                        @csrf
+                        <button>
+                            Sign Out
+                         </button>
+
+                    </forma>
                 </div>
             </div>
         </div>
