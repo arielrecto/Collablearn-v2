@@ -34,7 +34,7 @@ Route::get('/', function () {
     }
 
     return view('welcome');
-});
+})->name('welcome');
 
 Route::prefix('pre-register')
     ->as('pre-register.')
